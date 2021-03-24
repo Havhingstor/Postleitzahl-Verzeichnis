@@ -31,7 +31,7 @@ public class Binaerbaum<S extends Sortierelement<I>,I> {
         long start=System.currentTimeMillis();
         int hoehe=wurzel.getHoehe();
         long end=System.currentTimeMillis();
-        System.out.println("Die H�he des Baums ist "+hoehe+".");
+        System.out.println("Die Hoehe des Baums ist "+hoehe+".");
         System.out.println("Die gute Methode hat "+(end-start)+" Millisekunden gedauert");
         System.out.println("Operationen: "+Knoten.getOps());
     }
@@ -41,7 +41,7 @@ public class Binaerbaum<S extends Sortierelement<I>,I> {
         long start=System.currentTimeMillis();
         int hoehe=wurzel.getHoeheSchlecht();
         long end=System.currentTimeMillis();
-        System.out.println("Die H�he des Baums ist "+hoehe+".");
+        System.out.println("Die Hoehe des Baums ist "+hoehe+".");
         System.out.println("Die schlechte Methode hat "+(end-start)+" Millisekunden gedauert");
         System.out.println("Operationen: "+Knoten.getOps());
     }
