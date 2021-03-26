@@ -10,6 +10,7 @@ public class Mainklasse {
 			b.einfuegen(new Testeintrag(i));
 		}
 		b.sortiertAusgeben();
+		System.out.println(b.suchen(120));
 	}
 
 }

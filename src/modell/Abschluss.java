@@ -1,5 +1,7 @@
 package modell;
 
+import java.util.ArrayList;
+
 //I ist der Integrierte Vergleichsdatentyp, S der Container für alle Daten
 public class Abschluss<S extends Sortierelement<I>, I> extends Baumelement<S,I> {
 	int ebenen=0;
@@ -13,8 +15,8 @@ public class Abschluss<S extends Sortierelement<I>, I> extends Baumelement<S,I> 
     public void sortiertAusgeben(){}
 
 	@Override
-    public S suche(I suchbegriff, boolean genau){
-        return null;
+    public ArrayList<S> suche(I suchbegriff, boolean genau){
+        return new ArrayList<S>();
     }
     public void neueEbeneAusrechnen(int bisher){
         if(bisher>ebenen){

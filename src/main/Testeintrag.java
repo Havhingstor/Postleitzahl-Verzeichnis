@@ -19,10 +19,10 @@ public class Testeintrag implements Sortierelement<Long> {
 	public VergleichRueckgabe suche(Long suchbegriff, boolean genau) {
 		if(suchbegriff==nr) {
 			return VergleichRueckgabe.GLEICH;
-		}else if(suchbegriff<nr) {
-			return VergleichRueckgabe.KLEINER;
-		}else {
+		}else if(nr>suchbegriff) {
 			return VergleichRueckgabe.GROESSER;
+		}else {
+			return VergleichRueckgabe.KLEINER;
 		}
 	}
 

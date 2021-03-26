@@ -1,5 +1,8 @@
 package modell;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 //I ist der Integrierte Vergleichsdatentyp, S der Container für alle Daten
 public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
 
@@ -31,12 +34,15 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
     }
 
     @Override
-    public S suche(I suchbegriff, boolean genau){
+    public ArrayList<S> suche(I suchbegriff, boolean genau){
         switch (daten.suche(suchbegriff,genau)) {
             case GROESSER:
                 return linkerNachfolger.suche(suchbegriff,genau);
             case GLEICH:
-                return daten;
+            	ArrayList<S> returner = new ArrayList<S>(Arrays.asList(daten));
+            	returner.addAll(linkerNachfolger.suche(suchbegriff, genau));
+            	returner.addAll(rechterNachfolger.suche(suchbegriff, genau));
+                return returner;
             default:
                 return rechterNachfolger.suche(suchbegriff,genau);
         }
