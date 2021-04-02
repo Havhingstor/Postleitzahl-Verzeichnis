@@ -23,13 +23,21 @@ public class Binaerbaum<S extends Sortierelement<I>,I> {
     public ArrayList<S> suchen( I suchschluessel ) {
         return wurzel.suche(suchschluessel,true);
     }
-
+    
+    public void handle(SortierelementHandler<S,I> handler) {
+    	wurzel.handleInorder(handler);
+    }
+    
+    public void handlePreorder(SortierelementHandler<S,I> handler) {
+    	wurzel.handlePreorder(handler);
+    }
+    
     public void ausgeben(){
         wurzel.inorderAusgeben();
     }
     
-    public void postorderAusgeben() {
-    	wurzel.postorderAusgeben();
+    public void preorderAusgeben() {
+    	wurzel.preorderAusgeben();
     }
 
     public int getHoehe(){

@@ -9,10 +9,12 @@ import java.util.regex.Pattern;
 import modell.Binaerbaum;
 
 public class PLZ_Verzeichnis {
-	private Binaerbaum<Postleitzahl,Integer> plzs;
+	private Binaerbaum<Postleitzahl,Integer> ids;
+	private Binaerbaum<PlzZuID,Integer> plzs;
 	
 	public PLZ_Verzeichnis(String pfadCSV) {
-		plzs=new Binaerbaum<Postleitzahl,Integer>();
+		ids=new Binaerbaum<Postleitzahl,Integer>();
+		plzs=new Binaerbaum<PlzZuID,Integer>();
 		ladeAusCSV(pfadCSV);
 	}
 	
@@ -44,7 +46,9 @@ public class PLZ_Verzeichnis {
 							bundesland=infos[4];
 						}catch(Exception e) {}
 						if(plz!=0) {
-							plzs.einfuegen(new Postleitzahl(plz, ortsname, vorwahl, bundesland));
+							Postleitzahl newPLZ=new Postleitzahl(plz, ortsname, vorwahl, bundesland);
+							ids.einfuegen(newPLZ);
+							plzs.einfuegen(new PlzZuID(newPLZ));
 						}
 					}
 					System.out.println("Die CSV-Datei "+pfad+" wurde erfolgreich eingelesen.");
@@ -54,17 +58,21 @@ public class PLZ_Verzeichnis {
 	}
 	
 	public void suchePLZ(int suche) {
-		for(Postleitzahl ergebnis: plzs.suchen(suche)) {
-			System.out.println(ergebnis);
+		for(PlzZuID ergebnis: plzs.suchen(suche)) {
+			System.out.println(ids.suchen(ergebnis.getID()).get(0));
 		}
 	}
 	
 	public void ausgeben() {
-		plzs.ausgeben();
+		plzs.handle((data)->{
+			System.out.println(ids.suchen(data.getID()).get(0));
+		});
 	}
 	
 	public void ausgebenCSV() {
-		plzs.postorderAusgeben();
+		plzs.handlePreorder((data)->{
+		System.out.println(ids.suchen(data.getID()).get(0));
+	});
 	}
 	
 	public int getHoehe() {
@@ -76,6 +84,7 @@ public class PLZ_Verzeichnis {
 	}
 	
 	public void postleitzahlEintragen(Postleitzahl plz) {
-		plzs.einfuegen(plz);
+		ids.einfuegen(plz);
+		plzs.einfuegen(new PlzZuID(plz));
 	}
 }

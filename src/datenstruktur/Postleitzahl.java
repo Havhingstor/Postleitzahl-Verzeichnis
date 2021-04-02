@@ -4,6 +4,7 @@ import modell.Sortierelement;
 import modell.VergleichRueckgabe;
 
 public class Postleitzahl implements Sortierelement<Integer> {
+	private int id;
 	private int postleitzahl;
 	private String ortsname;
 	private int vorwahl;
@@ -23,18 +24,19 @@ public class Postleitzahl implements Sortierelement<Integer> {
 		this.ortsname=ortsname;
 		this.bundesland=bundesland;
 		this.vorwahl=vorwahl;
+		id=postleitzahl+vorwahl+ortsname.hashCode()+bundesland.hashCode();
 	}
 	
 	@Override
 	public boolean istKleinerAls(Sortierelement<Integer> s) {
-		return postleitzahl<s.getDaten();
+		return id<s.getDaten();
 	}
 
 	@Override
 	public VergleichRueckgabe suche(Integer suchbegriff, boolean genau) {
-		if(postleitzahl<suchbegriff) {
+		if(id<suchbegriff) {
 			return VergleichRueckgabe.KLEINER;
-		}else if(postleitzahl>suchbegriff) {
+		}else if(id>suchbegriff) {
 			return VergleichRueckgabe.GROESSER;
 		}else {
 			return VergleichRueckgabe.GLEICH;
@@ -43,7 +45,7 @@ public class Postleitzahl implements Sortierelement<Integer> {
 
 	@Override
 	public Integer getDaten() {
-		return postleitzahl;
+		return id;
 	}
 	
 	@Override
@@ -79,5 +81,17 @@ public class Postleitzahl implements Sortierelement<Integer> {
 	public String getBundesland() {
 		return bundesland;
 	}
-		
+	
+	public int getID() {
+		return id;
+	}
+	
+	protected int getPLZInt() {
+		return postleitzahl;
+	}
+	
+	protected int getVorwahlInt() {
+		return vorwahl;
+	}
+	
 }

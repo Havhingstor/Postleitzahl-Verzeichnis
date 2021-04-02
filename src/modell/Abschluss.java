@@ -15,7 +15,7 @@ public class Abschluss<S extends Sortierelement<I>, I> extends Baumelement<S,I> 
     public void inorderAusgeben(){}
 	
 	@Override
-    public void postorderAusgeben(){}
+    public void preorderAusgeben(){}
 
 	@Override
     public ArrayList<S> suche(I suchbegriff, boolean genau){
@@ -53,4 +53,12 @@ public class Abschluss<S extends Sortierelement<I>, I> extends Baumelement<S,I> 
             System.out.println("ABSCHLUSS");
         }
     }
+
+	@Override
+	void handleInorder(SortierelementHandler<S, I> handler) {
+	}
+
+	@Override
+	void handlePreorder(SortierelementHandler<S, I> handler) {
+	}
 }

@@ -33,10 +33,10 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
     }
     
     @Override
-    public void postorderAusgeben() {
+    public void preorderAusgeben() {
     	System.out.println(daten);
-    	linkerNachfolger.postorderAusgeben();
-    	rechterNachfolger.postorderAusgeben();
+    	linkerNachfolger.preorderAusgeben();
+    	rechterNachfolger.preorderAusgeben();
     }
     
     @Override
@@ -88,5 +88,19 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
          rechterNachfolger.printKnotenEbenen(ebenen-1);
         }
     }
+
+	@Override
+	void handleInorder(SortierelementHandler<S, I> handler) {
+		linkerNachfolger.handleInorder(handler);
+		handler.handle(daten);
+		rechterNachfolger.handleInorder(handler);
+	}
+
+	@Override
+	void handlePreorder(SortierelementHandler<S, I> handler) {
+		handler.handle(daten);
+		linkerNachfolger.handleInorder(handler);
+		rechterNachfolger.handleInorder(handler);
+	}
 
 }
