@@ -43,7 +43,9 @@ public class PLZ_Verzeichnis {
 						try {
 							bundesland=infos[4];
 						}catch(Exception e) {}
-						plzs.einfuegen(new Postleitzahl(plz, ortsname, vorwahl, bundesland));
+						if(plz!=0) {
+							plzs.einfuegen(new Postleitzahl(plz, ortsname, vorwahl, bundesland));
+						}
 					}
 					System.out.println("Die CSV-Datei "+pfad+" wurde erfolgreich eingelesen.");
 				}catch (IOException e) {}
@@ -67,6 +69,10 @@ public class PLZ_Verzeichnis {
 	
 	public int getHoehe() {
 		return plzs.getHoehe();
+	}
+	
+	public int getAnzahl() {
+		return plzs.zaehlen();
 	}
 	
 	public void postleitzahlEintragen(Postleitzahl plz) {

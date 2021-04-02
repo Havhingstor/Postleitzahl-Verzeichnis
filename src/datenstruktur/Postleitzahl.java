@@ -52,6 +52,9 @@ public class Postleitzahl implements Sortierelement<Integer> {
 	}
 	
 	public String getPLZ() {
+		if(postleitzahl==0) {
+			return "";
+		}
 		String plzStr=""+postleitzahl;
 		String returner="";
 		for(int i=0;i<(5-plzStr.length());++i){
