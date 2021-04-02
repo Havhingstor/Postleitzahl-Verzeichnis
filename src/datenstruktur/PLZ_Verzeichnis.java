@@ -63,6 +63,12 @@ public class PLZ_Verzeichnis {
 		}
 	}
 	
+	/*public void sucheVorwahl(int suche) {
+		for(PlzZuID ergebnis: plzs.suchen(suche)) {
+			System.out.println(ids.suchen(ergebnis.getID()).get(0));
+		}
+	}*/
+	
 	public void ausgeben() {
 		plzs.handle((data)->{
 			System.out.println(ids.suchen(data.getID()).get(0));
