@@ -24,31 +24,17 @@ public class Binaerbaum<S extends Sortierelement<I>,I> {
         return wurzel.suche(suchschluessel,true);
     }
 
-    public void sortiertAusgeben(){
-        wurzel.sortiertAusgeben();
-    }
-
-    public void printHoehe(){
-        Knoten.resetOps();
-        long start=System.currentTimeMillis();
-        int hoehe=wurzel.getHoehe();
-        long end=System.currentTimeMillis();
-        System.out.println("Die Hoehe des Baums ist "+hoehe+".");
-        System.out.println("Die gute Methode hat "+(end-start)+" Millisekunden gedauert");
-        System.out.println("Operationen: "+Knoten.getOps());
+    public void ausgeben(){
+        wurzel.inorderAusgeben();
     }
     
-    public void printHoeheSchlecht(){
-        Knoten.resetOps();
-        long start=System.currentTimeMillis();
-        int hoehe=wurzel.getHoeheSchlecht();
-        long end=System.currentTimeMillis();
-        System.out.println("Die Hoehe des Baums ist "+hoehe+".");
-        System.out.println("Die schlechte Methode hat "+(end-start)+" Millisekunden gedauert");
-        System.out.println("Operationen: "+Knoten.getOps());
+    public void postorderAusgeben() {
+    	wurzel.postorderAusgeben();
     }
 
-
+    public int getHoehe(){
+        return wurzel.getHoehe();
+    }
         
     public int zaehlen(){
       return wurzel.zaehlen();  

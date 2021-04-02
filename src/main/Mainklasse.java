@@ -1,17 +1,13 @@
 package main;
 
-import datenstruktur.Postleitzahl;
-import modell.Binaerbaum;
+import datenstruktur.PLZ_Verzeichnis;
 
 public class Mainklasse {
 
 	public static void main(String[] args) {
-		Binaerbaum<Postleitzahl,Integer> b=new Binaerbaum<Postleitzahl,Integer>();
-		for(int i=0;i<1000;++i) {
-			b.einfuegen(new Postleitzahl(i%333, ""+i));
-		}
-		b.sortiertAusgeben();
-		System.out.println(b.suchen(120));
+		PLZ_Verzeichnis b=new PLZ_Verzeichnis("C:\\Users\\pasch\\Desktop\\plz_kurz.csv");
+		b.ausgeben();
+		System.out.println();
+		b.suchePLZ(95444);
 	}
-
 }

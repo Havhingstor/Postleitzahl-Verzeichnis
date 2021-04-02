@@ -8,7 +8,6 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
 
 	private Baumelement<S,I> linkerNachfolger, rechterNachfolger;
     private S daten;
-    private static long ops;
     
     public Knoten(S s,Baumelement<S,I> links, Baumelement<S,I> rechts){
         daten=s;
@@ -27,12 +26,19 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
     }
 
     @Override
-    public void sortiertAusgeben(){
-       linkerNachfolger.sortiertAusgeben();
+    public void inorderAusgeben(){
+       linkerNachfolger.inorderAusgeben();
        System.out.println(daten);
-       rechterNachfolger.sortiertAusgeben();
+       rechterNachfolger.inorderAusgeben();
     }
-
+    
+    @Override
+    public void postorderAusgeben() {
+    	System.out.println(daten);
+    	linkerNachfolger.postorderAusgeben();
+    	rechterNachfolger.postorderAusgeben();
+    }
+    
     @Override
     public ArrayList<S> suche(I suchbegriff, boolean genau){
         switch (daten.suche(suchbegriff,genau)) {
@@ -50,7 +56,6 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
 
     @Override
     public int getHoehe(){
-        ++ops;
         int links=linkerNachfolger.getHoehe();
         int rechts=rechterNachfolger.getHoehe();
         if(links>rechts){
@@ -61,28 +66,10 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
     }
 
     @Override
-    public int getHoeheSchlecht(){
-        ++ops;
-        if(linkerNachfolger.getHoehe()>rechterNachfolger.getHoehe()){
-         return linkerNachfolger.getHoehe()+1;   
-        }else{
-            return rechterNachfolger.getHoehe()+1;
-        }
-    }
-
-    @Override
     public int zaehlen(){
         return rechterNachfolger.zaehlen()+linkerNachfolger.zaehlen()+1;
     }
     
-    public static long getOps(){
-        return ops;
-    }
-    
-    public static void resetOps(){
-        ops=0;
-    }
-
     @Override
     public int gebeZahlEbenen(int ebenen){
         if(ebenen==1){

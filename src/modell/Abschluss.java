@@ -12,7 +12,10 @@ public class Abschluss<S extends Sortierelement<I>, I> extends Baumelement<S,I> 
     }
 
 	@Override
-    public void sortiertAusgeben(){}
+    public void inorderAusgeben(){}
+	
+	@Override
+    public void postorderAusgeben(){}
 
 	@Override
     public ArrayList<S> suche(I suchbegriff, boolean genau){
@@ -26,11 +29,6 @@ public class Abschluss<S extends Sortierelement<I>, I> extends Baumelement<S,I> 
 
 	@Override
     public int getHoehe(){
-        return 0;
-    }
-
-	@Override
-    public int getHoeheSchlecht(){
         return 0;
     }
     
