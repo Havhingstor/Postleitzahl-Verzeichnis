@@ -9,8 +9,9 @@ public class Postleitzahl implements Sortierelement<Integer> {
 	private String ortsname;
 	private int vorwahl;
 	private String bundesland;
+	private String zusatz;
 	
-	public Postleitzahl(int postleitzahl, String ortsname, int vorwahl, String bundesland) {
+	public Postleitzahl(int postleitzahl, String ortsname, String zusatz, int vorwahl, String bundesland) {
 		if(postleitzahl<0) {
 			postleitzahl*=-1;
 		}
@@ -24,6 +25,7 @@ public class Postleitzahl implements Sortierelement<Integer> {
 		this.ortsname=ortsname;
 		this.bundesland=bundesland;
 		this.vorwahl=vorwahl;
+		this.zusatz=zusatz;
 		id=createID();
 	}
 	
@@ -50,7 +52,7 @@ public class Postleitzahl implements Sortierelement<Integer> {
 	
 	@Override
 	public String toString() {
-		return ortsname+"("+bundesland+", PLZ: "+getPLZ()+", Tel.: "+getVorwahl()+")";
+		return getOrtMitZusatz()+"("+bundesland+", PLZ: "+getPLZ()+", Tel.: "+getVorwahl()+")";
 	}
 	
 	public String getPLZ() {
@@ -68,6 +70,14 @@ public class Postleitzahl implements Sortierelement<Integer> {
 	
 	public String getOrt() {
 		return ortsname;
+	}
+	
+	public String getOrtMitZusatz() {
+		if(zusatz!=null&&zusatz!="") {
+			return ortsname+" "+zusatz;
+		}else {
+			return ortsname;
+		}
 	}
 	
 	public String getVorwahl() {
@@ -104,13 +114,23 @@ public class Postleitzahl implements Sortierelement<Integer> {
 			Postleitzahl plz=(Postleitzahl)o;
 			boolean ortsnBool=false;
 			boolean bundeslBool=false;
-			if(!(ortsname==null^plz.ortsname==null)) {
+			boolean zusatzBool=false;
+			if(ortsname!=null&&plz.ortsname!=null) {
 				ortsnBool=ortsname.equals(plz.ortsname);
+			}else if(ortsname==null&&plz.ortsname==null) {
+				ortsnBool=true;
 			}
-			if(!(bundesland==null^plz.bundesland==null)) {
+			if(bundesland!=null&&plz.bundesland!=null) {
 				bundeslBool=bundesland.equals(plz.bundesland);
+			}else if(bundesland==null&&plz.bundesland==null) {
+				bundeslBool=true;
 			}
-			return plz.postleitzahl==postleitzahl&&plz.vorwahl==vorwahl&&ortsnBool&&bundeslBool;
+			if(zusatz!=null&&plz.zusatz!=null) {
+				zusatzBool=zusatz.equals(plz.zusatz);
+			}else if(zusatz==null&&plz.zusatz==null) {
+				zusatzBool=true;
+			}
+			return plz.postleitzahl==postleitzahl&&plz.vorwahl==vorwahl&&ortsnBool&&bundeslBool&&zusatzBool;
 		}else {
 			return false;
 		}

@@ -12,11 +12,13 @@ public class PLZ_Verzeichnis {
 	private Binaerbaum<Postleitzahl,Integer> ids;
 	private Binaerbaum<PlzZuID,Integer> plzs;
 	private Binaerbaum<VorwahlZuID, Integer> vorwahlen;
+	private Binaerbaum<OrtsnameZuID, String> ortsnamen;
 	
 	public PLZ_Verzeichnis(String pfadCSV) {
 		ids=new Binaerbaum<Postleitzahl,Integer>();
 		plzs=new Binaerbaum<PlzZuID,Integer>();
 		vorwahlen=new Binaerbaum<VorwahlZuID, Integer>();
+		ortsnamen=new Binaerbaum<OrtsnameZuID, String>();
 		ladeAusCSV(pfadCSV);
 	}
 	
@@ -33,6 +35,7 @@ public class PLZ_Verzeichnis {
 						String ortsname="";
 						String bundesland="";
 						int vorwahl=0;
+						String zusatz="";
 						try {
 							plz=Integer.parseInt(infos[2]);
 						}catch(Exception e) {}
@@ -41,19 +44,20 @@ public class PLZ_Verzeichnis {
 						}catch(Exception e) {}
 						try {
 							ortsname=infos[0];
-							if(infos[1].length()>0) {
-								ortsname+=" "+infos[1];
-							}
+						}catch(Exception e) {}
+						try {
+							zusatz=infos[1];
 						}catch(Exception e) {}
 						try {
 							bundesland=infos[4];
 						}catch(Exception e) {}
 						if(plz!=0) {
-							Postleitzahl newPLZ=new Postleitzahl(plz, ortsname, vorwahl, bundesland);
+							Postleitzahl newPLZ=new Postleitzahl(plz, ortsname, zusatz, vorwahl, bundesland);
 							if(!newPLZ.equals(letztePLZ)) {
 								ids.einfuegen(newPLZ);
 								plzs.einfuegen(new PlzZuID(newPLZ));
 								vorwahlen.einfuegen(new VorwahlZuID(newPLZ));
+								ortsnamen.einfuegen(new OrtsnameZuID(newPLZ));
 								letztePLZ=newPLZ;
 							}
 						}
@@ -79,6 +83,12 @@ public class PLZ_Verzeichnis {
 	
 	public void vorwahlAusgeben(int suche) {
 		for(VorwahlZuID ergebnis: vorwahlen.suchen(suche)) {
+			System.out.println(ids.suchen(ergebnis.getID()).get(0));
+		}
+	}
+	
+	public void ortsnameAusgeben(String suche) {
+		for(OrtsnameZuID ergebnis: ortsnamen.suchen(suche)) {
 			System.out.println(ids.suchen(ergebnis.getID()).get(0));
 		}
 	}

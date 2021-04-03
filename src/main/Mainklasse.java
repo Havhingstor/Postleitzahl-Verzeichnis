@@ -9,7 +9,11 @@ public class Mainklasse {
 		b.ausgeben();
 		System.out.println();
 		b.vorwahlAusgeben(921);
-		System.out.println(b.suchePLZ(95444));
+		System.out.println();
+		b.plzAusgeben(95444);
+		System.out.println();
+		b.ortsnameAusgeben("Bayreuth");
+		System.out.println();
 		System.out.println(b.getHoehe());
 		System.out.println(b.getAnzahl());
 	}
