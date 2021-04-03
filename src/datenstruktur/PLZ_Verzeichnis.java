@@ -13,12 +13,14 @@ public class PLZ_Verzeichnis {
 	private Binaerbaum<PlzZuID,Integer> plzs;
 	private Binaerbaum<VorwahlZuID, Integer> vorwahlen;
 	private Binaerbaum<OrtsnameZuID, String> ortsnamen;
+	private Binaerbaum<BundeslandZuID, String> bundeslaender;
 	
 	public PLZ_Verzeichnis(String pfadCSV) {
 		ids=new Binaerbaum<Postleitzahl,Integer>();
 		plzs=new Binaerbaum<PlzZuID,Integer>();
 		vorwahlen=new Binaerbaum<VorwahlZuID, Integer>();
 		ortsnamen=new Binaerbaum<OrtsnameZuID, String>();
+		bundeslaender=new Binaerbaum<BundeslandZuID, String>();
 		ladeAusCSV(pfadCSV);
 	}
 	
@@ -58,6 +60,7 @@ public class PLZ_Verzeichnis {
 								plzs.einfuegen(new PlzZuID(newPLZ));
 								vorwahlen.einfuegen(new VorwahlZuID(newPLZ));
 								ortsnamen.einfuegen(new OrtsnameZuID(newPLZ));
+								bundeslaender.einfuegen(new BundeslandZuID(newPLZ));
 								letztePLZ=newPLZ;
 							}
 						}
@@ -89,6 +92,12 @@ public class PLZ_Verzeichnis {
 	
 	public void ortsnameAusgeben(String suche) {
 		for(OrtsnameZuID ergebnis: ortsnamen.suchen(suche)) {
+			System.out.println(ids.suchen(ergebnis.getID()).get(0));
+		}
+	}
+	
+	public void bundeslaenderAusgeben(String suche) {
+		for(BundeslandZuID ergebnis: bundeslaender.suchen(suche)) {
 			System.out.println(ids.suchen(ergebnis.getID()).get(0));
 		}
 	}

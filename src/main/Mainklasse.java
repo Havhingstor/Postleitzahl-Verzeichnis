@@ -14,6 +14,8 @@ public class Mainklasse {
 		System.out.println();
 		b.ortsnameAusgeben("Bayreuth");
 		System.out.println();
+//		b.bundeslaenderAusgeben("Bayern");
+//		System.out.println();
 		System.out.println(b.getHoehe());
 		System.out.println(b.getAnzahl());
 	}
