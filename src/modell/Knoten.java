@@ -99,8 +99,8 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
 	@Override
 	void handlePreorder(SortierelementHandler<S, I> handler) {
 		handler.handle(daten);
-		linkerNachfolger.handleInorder(handler);
-		rechterNachfolger.handleInorder(handler);
+		linkerNachfolger.handlePreorder(handler);
+		rechterNachfolger.handlePreorder(handler);
 	}
 
 }

@@ -103,27 +103,23 @@ public class PLZ_Verzeichnis {
 	}
 	
 	public void ausgeben() {
-		/*plzs.handle((data)->{
+		plzs.handle((data)->{
 			System.out.println(ids.suchen(data.getID()).get(0));
-		});*/
-		ids.ausgeben();
+		});
 	}
 	
 	public void ausgebenCSV() {
-		/*plzs.handlePreorder((data)->{
+		plzs.handlePreorder((data)->{
 			System.out.println(ids.suchen(data.getID()).get(0).getCSV());
-		});*/
-		ids.handlePreorder((data)->{
-			System.out.println(data.getCSV());
 		});
 	}
 	
 	public int getHoehe() {
-		return ids.getHoehe();
+		return plzs.getHoehe();
 	}
 	
 	public int getAnzahl() {
-		return ids.zaehlen();
+		return plzs.zaehlen();
 	}
 	
 	public void postleitzahlEintragen(Postleitzahl plz) {

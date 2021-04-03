@@ -6,9 +6,8 @@ public class Mainklasse {
 
 	public static void main(String[] args) {
 		PLZ_Verzeichnis b=new PLZ_Verzeichnis(
-				"C:\\Users\\pasch\\Desktop\\plzs.csv"
-				);
-		b.ausgebenCSV();
+				"D:\\Users\\Dokumente\\Schule\\11. Klasse\\Info\\Infoprojekt Postleitzahlen\\plz_de.csv");
+		b.ausgeben();
 		System.out.println();
 		b.vorwahlAusgeben(921);
 		System.out.println();
