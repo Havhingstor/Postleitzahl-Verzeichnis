@@ -24,7 +24,7 @@ public class Postleitzahl implements Sortierelement<Integer> {
 		this.ortsname=ortsname;
 		this.bundesland=bundesland;
 		this.vorwahl=vorwahl;
-		id=postleitzahl+vorwahl+ortsname.hashCode()+bundesland.hashCode();
+		id=createID();
 	}
 	
 	@Override
@@ -94,4 +94,25 @@ public class Postleitzahl implements Sortierelement<Integer> {
 		return vorwahl;
 	}
 	
+	private int createID() {
+		return (""+postleitzahl+vorwahl+ortsname+bundesland).hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o!=null&&o.getClass()==this.getClass()) {
+			Postleitzahl plz=(Postleitzahl)o;
+			boolean ortsnBool=false;
+			boolean bundeslBool=false;
+			if(!(ortsname==null^plz.ortsname==null)) {
+				ortsnBool=ortsname.equals(plz.ortsname);
+			}
+			if(!(bundesland==null^plz.bundesland==null)) {
+				bundeslBool=bundesland.equals(plz.bundesland);
+			}
+			return plz.postleitzahl==postleitzahl&&plz.vorwahl==vorwahl&&ortsnBool&&bundeslBool;
+		}else {
+			return false;
+		}
+	}
 }

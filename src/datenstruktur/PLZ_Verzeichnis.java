@@ -24,6 +24,7 @@ public class PLZ_Verzeichnis {
 			if(f.exists()&&!f.isDirectory()) {
 				try(BufferedReader br=new BufferedReader(new FileReader(pfad))){
 					String line="";
+					Postleitzahl letztePLZ=null;
 					while((line=br.readLine())!=null) {
 						String[] infos=line.split(";");
 						int plz=0;
@@ -47,8 +48,11 @@ public class PLZ_Verzeichnis {
 						}catch(Exception e) {}
 						if(plz!=0) {
 							Postleitzahl newPLZ=new Postleitzahl(plz, ortsname, vorwahl, bundesland);
-							ids.einfuegen(newPLZ);
-							plzs.einfuegen(new PlzZuID(newPLZ));
+							if(!newPLZ.equals(letztePLZ)) {
+								ids.einfuegen(newPLZ);
+								plzs.einfuegen(new PlzZuID(newPLZ));
+								letztePLZ=newPLZ;
+							}
 						}
 					}
 					System.out.println("Die CSV-Datei "+pfad+" wurde erfolgreich eingelesen.");
