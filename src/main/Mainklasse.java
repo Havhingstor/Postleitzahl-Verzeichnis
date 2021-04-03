@@ -5,8 +5,10 @@ import datenstruktur.PLZ_Verzeichnis;
 public class Mainklasse {
 
 	public static void main(String[] args) {
-		PLZ_Verzeichnis b=new PLZ_Verzeichnis("D:\\Users\\Dokumente\\Schule\\11. Klasse\\Info\\Infoprojekt Postleitzahlen\\plz_de.csv");
-		b.ausgeben();
+		PLZ_Verzeichnis b=new PLZ_Verzeichnis(
+				"C:\\Users\\pasch\\Desktop\\plzs.csv"
+				);
+		b.ausgebenCSV();
 		System.out.println();
 		b.vorwahlAusgeben(921);
 		System.out.println();

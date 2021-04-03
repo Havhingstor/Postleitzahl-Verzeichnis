@@ -103,27 +103,34 @@ public class PLZ_Verzeichnis {
 	}
 	
 	public void ausgeben() {
-		plzs.handle((data)->{
+		/*plzs.handle((data)->{
 			System.out.println(ids.suchen(data.getID()).get(0));
-		});
+		});*/
+		ids.ausgeben();
 	}
 	
 	public void ausgebenCSV() {
-		plzs.handlePreorder((data)->{
-		System.out.println(ids.suchen(data.getID()).get(0));
-	});
+		/*plzs.handlePreorder((data)->{
+			System.out.println(ids.suchen(data.getID()).get(0).getCSV());
+		});*/
+		ids.handlePreorder((data)->{
+			System.out.println(data.getCSV());
+		});
 	}
 	
 	public int getHoehe() {
-		return plzs.getHoehe();
+		return ids.getHoehe();
 	}
 	
 	public int getAnzahl() {
-		return plzs.zaehlen();
+		return ids.zaehlen();
 	}
 	
 	public void postleitzahlEintragen(Postleitzahl plz) {
 		ids.einfuegen(plz);
 		plzs.einfuegen(new PlzZuID(plz));
+		vorwahlen.einfuegen(new VorwahlZuID(plz));
+		ortsnamen.einfuegen(new OrtsnameZuID(plz));
+		bundeslaender.einfuegen(new BundeslandZuID(plz));
 	}
 }

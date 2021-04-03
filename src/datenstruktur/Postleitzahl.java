@@ -135,4 +135,8 @@ public class Postleitzahl implements Sortierelement<Integer> {
 			return false;
 		}
 	}
+	
+	public String getCSV() {
+		return ortsname+";"+zusatz+";"+getPLZ()+";"+getVorwahl()+";"+bundesland;
+	}
 }
