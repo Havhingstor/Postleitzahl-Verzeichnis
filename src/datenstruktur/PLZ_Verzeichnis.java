@@ -11,10 +11,12 @@ import modell.Binaerbaum;
 public class PLZ_Verzeichnis {
 	private Binaerbaum<Postleitzahl,Integer> ids;
 	private Binaerbaum<PlzZuID,Integer> plzs;
+	private Binaerbaum<VorwahlZuID, Integer> vorwahlen;
 	
 	public PLZ_Verzeichnis(String pfadCSV) {
 		ids=new Binaerbaum<Postleitzahl,Integer>();
 		plzs=new Binaerbaum<PlzZuID,Integer>();
+		vorwahlen=new Binaerbaum<VorwahlZuID, Integer>();
 		ladeAusCSV(pfadCSV);
 	}
 	
@@ -51,6 +53,7 @@ public class PLZ_Verzeichnis {
 							if(!newPLZ.equals(letztePLZ)) {
 								ids.einfuegen(newPLZ);
 								plzs.einfuegen(new PlzZuID(newPLZ));
+								vorwahlen.einfuegen(new VorwahlZuID(newPLZ));
 								letztePLZ=newPLZ;
 							}
 						}
@@ -61,17 +64,24 @@ public class PLZ_Verzeichnis {
 		}
 	}
 	
-	public void suchePLZ(int suche) {
+	public void plzAusgeben(int suche) {
 		for(PlzZuID ergebnis: plzs.suchen(suche)) {
 			System.out.println(ids.suchen(ergebnis.getID()).get(0));
 		}
 	}
 	
-	/*public void sucheVorwahl(int suche) {
+	public Postleitzahl suchePLZ(int suche) {
 		for(PlzZuID ergebnis: plzs.suchen(suche)) {
+			return ids.suchen(ergebnis.getID()).get(0);
+		}
+		return null;
+	}
+	
+	public void vorwahlAusgeben(int suche) {
+		for(VorwahlZuID ergebnis: vorwahlen.suchen(suche)) {
 			System.out.println(ids.suchen(ergebnis.getID()).get(0));
 		}
-	}*/
+	}
 	
 	public void ausgeben() {
 		plzs.handle((data)->{
