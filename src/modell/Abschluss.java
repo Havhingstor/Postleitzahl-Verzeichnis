@@ -12,12 +12,6 @@ public class Abschluss<S extends Sortierelement<I>, I> extends Baumelement<S,I> 
     }
 
 	@Override
-    public void inorderAusgeben(){}
-	
-	@Override
-    public void preorderAusgeben(){}
-
-	@Override
     public ArrayList<S> suche(I suchbegriff, boolean genau){
         return new ArrayList<S>();
     }
@@ -43,22 +37,11 @@ public class Abschluss<S extends Sortierelement<I>, I> extends Baumelement<S,I> 
     }
 
 	@Override
-    int gebeZahlEbenen(int ebenen){
-        return 0;
-    }
+	void handleInorder(SortierelementHandler<S, I> handler) {}
 
 	@Override
-    void printKnotenEbenen(int ebenen){
-        if(ebenen==1){
-            System.out.println("ABSCHLUSS");
-        }
-    }
+	void handlePreorder(SortierelementHandler<S, I> handler) {}
 
 	@Override
-	void handleInorder(SortierelementHandler<S, I> handler) {
-	}
-
-	@Override
-	void handlePreorder(SortierelementHandler<S, I> handler) {
-	}
+	void handlePostorder(SortierelementHandler<S, I> handler) {}
 }

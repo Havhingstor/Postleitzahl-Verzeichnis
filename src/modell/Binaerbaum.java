@@ -32,12 +32,8 @@ public class Binaerbaum<S extends Sortierelement<I>,I> {
     	wurzel.handlePreorder(handler);
     }
     
-    public void ausgeben(){
-        wurzel.inorderAusgeben();
-    }
-    
-    public void preorderAusgeben() {
-    	wurzel.preorderAusgeben();
+    public void handlePostorder(SortierelementHandler<S,I> handler) {
+    	wurzel.handlePostorder(handler);
     }
 
     public int getHoehe(){
@@ -46,17 +42,5 @@ public class Binaerbaum<S extends Sortierelement<I>,I> {
         
     public int zaehlen(){
       return wurzel.zaehlen();  
-    }
-    
-    public int gebeZahlEbenen(int ebene){
-        return wurzel.gebeZahlEbenen(ebene);
-    }
-    
-    public void printZahlEbenen(int ebene){
-        System.out.println("Ebene "+ebene+": "+gebeZahlEbenen(ebene));
-    }
-    
-    public void printKnotenEbenen(int ebenen){
-     wurzel.printKnotenEbenen(ebenen);   
     }
 }

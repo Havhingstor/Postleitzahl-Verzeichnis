@@ -24,20 +24,6 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
         }
         return this;
     }
-
-    @Override
-    public void inorderAusgeben(){
-       linkerNachfolger.inorderAusgeben();
-       System.out.println(daten);
-       rechterNachfolger.inorderAusgeben();
-    }
-    
-    @Override
-    public void preorderAusgeben() {
-    	System.out.println(daten);
-    	linkerNachfolger.preorderAusgeben();
-    	rechterNachfolger.preorderAusgeben();
-    }
     
     @Override
     public ArrayList<S> suche(I suchbegriff, boolean genau){
@@ -69,25 +55,6 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
     public int zaehlen(){
         return rechterNachfolger.zaehlen()+linkerNachfolger.zaehlen()+1;
     }
-    
-    @Override
-    public int gebeZahlEbenen(int ebenen){
-        if(ebenen==1){
-            return 1;
-        }else{
-            return linkerNachfolger.gebeZahlEbenen(ebenen-1)+rechterNachfolger.gebeZahlEbenen(ebenen-1);
-        }
-    }
-
-    @Override
-    public void printKnotenEbenen(int ebenen){
-        if(ebenen==1){
-            System.out.println(daten);
-        }else{
-         linkerNachfolger.printKnotenEbenen(ebenen-1);
-         rechterNachfolger.printKnotenEbenen(ebenen-1);
-        }
-    }
 
 	@Override
 	void handleInorder(SortierelementHandler<S, I> handler) {
@@ -101,6 +68,13 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
 		handler.handle(daten);
 		linkerNachfolger.handlePreorder(handler);
 		rechterNachfolger.handlePreorder(handler);
+	}
+
+	@Override
+	void handlePostorder(SortierelementHandler<S, I> handler) {
+		linkerNachfolger.handlePostorder(handler);
+		rechterNachfolger.handlePostorder(handler);
+		handler.handle(daten);
 	}
 
 }
