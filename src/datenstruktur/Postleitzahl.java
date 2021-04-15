@@ -52,7 +52,7 @@ public class Postleitzahl implements Sortierelement<Integer> {
 	
 	@Override
 	public String toString() {
-		return getOrtMitZusatz()+"("+bundesland+", PLZ: "+getPLZ()+", Tel.: "+getVorwahl()+")";
+		return getOrtMitZusatz()+" ("+bundesland+", PLZ: "+getPLZ()+", Tel.: "+getVorwahl()+")";
 	}
 	
 	public String getPLZ() {
