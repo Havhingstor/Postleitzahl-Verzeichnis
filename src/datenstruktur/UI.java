@@ -1,4 +1,4 @@
-package modell;
+package datenstruktur;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -17,8 +17,6 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
-
-import datenstruktur.PLZ_Verzeichnis;
 public class UI {
 	
 	private JFrame frame;
