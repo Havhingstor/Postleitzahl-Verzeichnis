@@ -1,44 +1,32 @@
 package modell;
 
-import java.io.*;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Scanner; 
-import java.awt.EventQueue;
-import java.util.Scanner; 
-import javax.swing.JFrame;
-import java.awt.FlowLayout;
 import java.awt.Color;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JPopupMenu;
 import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
-import javax.swing.JTextArea;
-import javax.swing.AbstractAction;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
-import javax.swing.Action;
 import java.awt.event.ActionListener;
-import javax.swing.JEditorPane;
-import javax.swing.JTextPane;
-import javax.swing.text.JTextComponent;
-import datenstruktur.PLZ_Verzeichnis;
+import java.util.Scanner;
+
 import javax.swing.DropMode;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+
+import datenstruktur.PLZ_Verzeichnis;
 public class UI {
 	
 	private JFrame frame;
 	 Scanner scanner; 
 	 private JTextField textField;
-	 private final Action action = new SwingAction();
+//	 private final Action action = new SwingAction();
 	public Component textPane;
-	PLZ_Verzeichnis Verzeichnis;
+	PLZ_Verzeichnis verzeichnis;
 	int i=0;
 
 	String search = new String ();
@@ -47,25 +35,31 @@ public class UI {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UI window = new UI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					UI window = new UI();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//		
+//	}
 
+	public static void main(String[] args) {
+		new UI("D:\\Users\\Dokumente\\Schule\\11. Klasse\\Info\\Infoprojekt Postleitzahlen\\plz_de.csv");
+	}
+	
 	/**
 	 * Create the application.
 	 */
-	public UI() {
+	public UI(String pfad) {
+		verzeichnis=new PLZ_Verzeichnis(pfad);
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -84,6 +78,8 @@ public class UI {
 		textField.setDropMode(DropMode.INSERT);
 		textField.setBounds(166, 11, 96, 20);
 		textField.setColumns(5);
+        AbstractDocument doc = (AbstractDocument) textField.getDocument();
+        doc.setDocumentFilter(new IntegerFilter(textField));
 		frame.getContentPane().add(textField);
 		
 		JTextPane txtpnsearch = new JTextPane();
@@ -91,19 +87,19 @@ public class UI {
 		txtpnsearch.setEditable(false);
 		txtpnsearch.setBounds(135, 101, 147, 77);
 		frame.getContentPane().add(txtpnsearch);
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Suchen");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String [] texte = new String [1];
-				
-				
-				Scanner scan = new Scanner(System.in);
 				txtpnsearch.setEnabled(true);
 				
-				txtpnsearch.setText(Verzeichnis.suchePLZ(search).toString());
+				int suchPLZ=Integer.parseInt(textField.getText());
+				ConsoleOutputCapturer coc=new ConsoleOutputCapturer();
+				coc.start();
+				verzeichnis.plzAusgeben(suchPLZ);
+				txtpnsearch.setText(coc.stop());
 			}
 		});
-		btnNewButton.setAction(action);
+//		btnNewButton.setAction(action);
 		btnNewButton.setBounds(166, 42, 96, 23);
 		frame.getContentPane().add(btnNewButton);
 		
@@ -115,19 +111,46 @@ public class UI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
-	private class SwingAction extends AbstractAction {
-		UI ui;
-		public SwingAction() {
-			putValue(NAME, "suchen");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		
-		public void actionPerformed(ActionEvent e) {
-			
-				
-		}
-	}
-	}
+//	private class SwingAction extends AbstractAction {
+//		UI ui;
+//		public SwingAction() {
+//			putValue(NAME, "suchen");
+//			putValue(SHORT_DESCRIPTION, "Some short description");
+//		}
+//		
+//		public void actionPerformed(ActionEvent e) {
+//			
+//				
+//		}
+//	}
+	
+	 class IntegerFilter extends DocumentFilter {
+		 	JTextField textField;
+		 	
+		 	IntegerFilter(JTextField textField){
+		 		this.textField=textField;
+		 	}
+		 
+	        @Override
+	        public void insertString(DocumentFilter.FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
+	            if (isNumeric(text)&&textField.getText().length()+text.length()<=5) {
+	               super.insertString(fb, offset, text, attr);
+	            }
+	        }
+
+	        @Override
+	        public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String text, AttributeSet attr) throws BadLocationException {
+	            if (isNumeric(text)&&textField.getText().length()+text.length()<=5) {
+	               super.replace(fb, offset, length, text, attr);
+	            }
+	        }
+
+	        private boolean isNumeric(String text) {
+	            return text != null && text.matches("\\d*");
+	        }
+	    }
+	
+}
 
 
 
