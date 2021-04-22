@@ -8,11 +8,15 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
 
 	private Baumelement<S,I> linkerNachfolger, rechterNachfolger;
     private S daten;
+    private int hoehe;
+    private boolean hoeheValid;
     
     public Knoten(S s,Baumelement<S,I> links, Baumelement<S,I> rechts){
         daten=s;
         linkerNachfolger=links;
         rechterNachfolger=rechts;
+        hoehe=0;
+        hoeheValid=false;
     }
     
     @Override
@@ -22,6 +26,7 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
         }else{
             rechterNachfolger=rechterNachfolger.einfuegen(s);
         }
+        hoeheValid=false;
         return this;
     }
     
@@ -42,13 +47,17 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
 
     @Override
     public int getHoehe(){
-        int links=linkerNachfolger.getHoehe();
-        int rechts=rechterNachfolger.getHoehe();
-        if(links>rechts){
-         return links+1;   
-        }else{
-            return rechts+1;
-        }
+    	if(!hoeheValid) {
+	        int links=linkerNachfolger.getHoehe();
+	        int rechts=rechterNachfolger.getHoehe();
+	        if(links>rechts){
+	        	hoehe=links+1;   
+	        }else{
+	            hoehe=rechts+1;
+	        }
+	        hoeheValid=true;
+    	}
+    	return hoehe;
     }
 
     @Override
@@ -57,24 +66,106 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
     }
 
 	@Override
-	void handleInorder(SortierelementHandler<S, I> handler) {
+	public void handleInorder(SortierelementHandler<S, I> handler) {
 		linkerNachfolger.handleInorder(handler);
+		System.out.println("Links: "+linkerNachfolger.getHoehe()+" Rechts: "+rechterNachfolger.getHoehe());
 		handler.handle(daten);
 		rechterNachfolger.handleInorder(handler);
 	}
 
 	@Override
-	void handlePreorder(SortierelementHandler<S, I> handler) {
+	public void handlePreorder(SortierelementHandler<S, I> handler) {
+		System.out.println("Links: "+linkerNachfolger.getHoehe()+" Rechts: "+rechterNachfolger.getHoehe());
 		handler.handle(daten);
 		linkerNachfolger.handlePreorder(handler);
 		rechterNachfolger.handlePreorder(handler);
 	}
 
 	@Override
-	void handlePostorder(SortierelementHandler<S, I> handler) {
+	public void handlePostorder(SortierelementHandler<S, I> handler) {
 		linkerNachfolger.handlePostorder(handler);
 		rechterNachfolger.handlePostorder(handler);
+		System.out.println("Links: "+linkerNachfolger.getHoehe()+" Rechts: "+rechterNachfolger.getHoehe());
 		handler.handle(daten);
 	}
+	
+	@Override
+	public Baumelement<S,I> rotiere(boolean rechts){
+		if(rechts) {
+			Baumelement<S,I> anschluss=linkerNachfolger;
+			linkerNachfolger=anschluss.getAnschluss(this);
+			if(linkerNachfolger==null) {
+				linkerNachfolger=anschluss;
+				return this;
+			}else {
+				return anschluss;
+			}
+		}else {
+			Baumelement<S,I> anschluss=rechterNachfolger;
+			rechterNachfolger=anschluss.getAnschluss(this);
+			if(rechterNachfolger==null) {
+				rechterNachfolger=anschluss;
+				return this;
+			}else {
+				return anschluss;
+			}
+		}
+	}
+	
+	public S getDaten() {
+		return daten;
+	}
+	
+	@Override
+	public Baumelement<S, I> getAnschluss(Knoten<S,I> referenz) {
+		if(referenz.getDaten().istKleinerAls(daten)) {
+			Baumelement<S,I> anschluss=linkerNachfolger;
+			linkerNachfolger=referenz;
+			return anschluss;
+		}else {
+			Baumelement<S,I> anschluss=rechterNachfolger;
+			rechterNachfolger=referenz;
+			return anschluss;
+		}
+	}
 
+	@Override
+	Baumelement<S, I> optimiere() {
+		linkerNachfolger=linkerNachfolger.optimiere();
+		rechterNachfolger=rechterNachfolger.optimiere();
+		int hoeheLinks=linkerNachfolger.getHoehe(), hoeheRechts=rechterNachfolger.getHoehe(), diff=hoeheRechts-hoeheLinks;
+		if(diff>1) {
+			rechterNachfolger=rechterNachfolger.ueberpruefe(hoeheLinks,false);
+			hoeheValid=false;
+			return rotiere(false);
+		}else if(diff<-1) {
+			linkerNachfolger=linkerNachfolger.ueberpruefe(hoeheRechts, true);
+			hoeheValid=false;
+			return rotiere(true);
+		}else {
+			return this;
+		}
+	}
+
+	/**
+	 * @param links true, wenn die äußere Seite links ist
+	 */
+	@Override
+	Baumelement<S, I> ueberpruefe(int referenzhoehe, boolean links) {
+		int meineHoehe;
+		if(links) {
+			meineHoehe=linkerNachfolger.getHoehe();
+		}else {
+			meineHoehe=rechterNachfolger.getHoehe();
+		}
+		if(meineHoehe==referenzhoehe+1) {
+			return this;
+		}else if(meineHoehe==referenzhoehe) {
+			return rotiere(!links);
+		}else {
+			System.out.println("Fail");
+			return this;
+		}
+	}
+	
 }

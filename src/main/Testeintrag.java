@@ -3,20 +3,20 @@ package main;
 import modell.Sortierelement;
 import modell.VergleichRueckgabe;
 
-public class Testeintrag implements Sortierelement<Long> {
-	long nr;
+public class Testeintrag implements Sortierelement<Integer> {
+	int nr;
 	
-	Testeintrag(long nr){
+	Testeintrag(int nr){
 		this.nr=nr;
 	}
 	
 	@Override
-	public boolean istKleinerAls(Sortierelement<Long> s) {
+	public boolean istKleinerAls(Sortierelement<Integer> s) {
 		return this.nr<s.getDaten();
 	}
 
 	@Override
-	public VergleichRueckgabe suche(Long suchbegriff, boolean genau) {
+	public VergleichRueckgabe suche(Integer suchbegriff, boolean genau) {
 		if(suchbegriff==nr) {
 			return VergleichRueckgabe.GLEICH;
 		}else if(nr>suchbegriff) {
@@ -27,7 +27,7 @@ public class Testeintrag implements Sortierelement<Long> {
 	}
 
 	@Override
-	public Long getDaten() {
+	public Integer getDaten() {
 		return nr;
 	}
 	

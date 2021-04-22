@@ -14,6 +14,7 @@ public class Binaerbaum<S extends Sortierelement<I>,I> {
 
     public void einfuegen( S s ) {
         wurzel=wurzel.einfuegen(s);
+        wurzel=wurzel.optimiere();
     }
 
     public ArrayList<S> suchenOhneGrossbuchstaben( I suchschluessel ) {

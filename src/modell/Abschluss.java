@@ -44,4 +44,24 @@ public class Abschluss<S extends Sortierelement<I>, I> extends Baumelement<S,I> 
 
 	@Override
 	void handlePostorder(SortierelementHandler<S, I> handler) {}
+
+	@Override
+	Baumelement<S, I> rotiere(boolean rechts) {
+		return this;
+	}
+
+	@Override
+	Baumelement<S, I> getAnschluss(Knoten<S, I> referenz) {
+		return null;
+	}
+
+	@Override
+	Baumelement<S, I> optimiere() {
+		return this;
+	}
+
+	@Override
+	Baumelement<S, I> ueberpruefe(int referenzhoehe, boolean links) {
+		return this;
+	}
 }
