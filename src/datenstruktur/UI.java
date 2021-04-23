@@ -91,10 +91,15 @@ public class UI {
 				
 				if(textField.getText().length()>0) {
 					int suchPLZ=Integer.parseInt(textField.getText());
-					ConsoleOutputCapturer coc=new ConsoleOutputCapturer();
-					coc.start();
-					verzeichnis.plzAusgeben(suchPLZ);
-					txtpnsearch.setText(coc.stop());
+//					ConsoleOutputCapturer coc=new ConsoleOutputCapturer();
+//					coc.start();
+//					verzeichnis.plzAusgeben(suchPLZ);
+//					txtpnsearch.setText(coc.stop());
+					String ergebnis="";
+					for(Postleitzahl plz: verzeichnis.suchePLZ(suchPLZ)) {
+						ergebnis+=plz+"\n";
+					}
+					txtpnsearch.setText(ergebnis);
 				}
 			}
 		});
@@ -116,10 +121,15 @@ public class UI {
 			public void actionPerformed(ActionEvent e) {
 				stadtSearchText.setEnabled(true);
 				
-				ConsoleOutputCapturer coc=new ConsoleOutputCapturer();
-				coc.start();
-				verzeichnis.ortsnameAusgeben(stadtField.getText());
-				stadtSearchText.setText(coc.stop());
+//				ConsoleOutputCapturer coc=new ConsoleOutputCapturer();
+//				coc.start();
+//				verzeichnis.ortsnameAusgeben(stadtField.getText());
+//				stadtSearchText.setText(coc.stop());
+				String ergebnis="";
+				for(Postleitzahl plz: verzeichnis.sucheOrtsname(stadtField.getText())) {
+					ergebnis+=plz+"\n";
+				}
+				stadtSearchText.setText(ergebnis);
 			}
 		});
 		
@@ -144,10 +154,15 @@ public class UI {
 				
 				if(vorwahlField.getText().length()>0) {
 					int suchVW=Integer.parseInt(vorwahlField.getText());
-					ConsoleOutputCapturer coc=new ConsoleOutputCapturer();
-					coc.start();
-					verzeichnis.vorwahlAusgeben(suchVW);
-					vorwahlSearchText.setText(coc.stop());
+//					ConsoleOutputCapturer coc=new ConsoleOutputCapturer();
+//					coc.start();
+//					verzeichnis.vorwahlAusgeben(suchVW);
+//					vorwahlSearchText.setText(coc.stop());
+					String ergebnis="";
+					for(Postleitzahl plz: verzeichnis.sucheVorwahl(suchVW)) {
+						ergebnis+=plz+"\n";
+					}
+					vorwahlSearchText.setText(ergebnis);
 				}
 				
 			}

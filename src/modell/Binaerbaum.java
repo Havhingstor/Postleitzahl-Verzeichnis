@@ -1,6 +1,6 @@
 package modell;
 
-import java.util.ArrayList;
+import java.util.List;
 
 //I ist der Integrierte Vergleichsdatentyp, S der Container für alle Daten
 public class Binaerbaum<S extends Sortierelement<I>,I> {
@@ -13,14 +13,14 @@ public class Binaerbaum<S extends Sortierelement<I>,I> {
     }
 
     public void einfuegen( S s ) {
-        wurzel=wurzel.einfuegen(s);
+    	wurzel=wurzel.einfuegen(s).optimiere();
     }
 
-    public ArrayList<S> suchenOhneGrossbuchstaben( I suchschluessel ) {
+    public List<S> suchenOhneGrossbuchstaben( I suchschluessel ) {
         return wurzel.suche(suchschluessel,false);
     }
     
-    public ArrayList<S> suchen( I suchschluessel ) {
+    public List<S> suchen( I suchschluessel ) {
         return wurzel.suche(suchschluessel,true);
     }
     

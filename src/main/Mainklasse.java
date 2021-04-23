@@ -9,27 +9,25 @@ public class Mainklasse {
 				"D:\\Users\\Dokumente\\Schule\\11. Klasse\\Info\\Infoprojekt Postleitzahlen\\plz_de.csv");
 		b.ausgeben();
 		System.out.println();
-		b.vorwahlAusgeben(921);
+		b.vorwahlSucheAusgeben(921);
 		System.out.println();
-		b.plzAusgeben(95444);
+		b.plzSucheAusgeben(95444);
 		System.out.println();
 		b.ortsnameAusgeben("Bayreuth");
 		System.out.println();
 //		b.bundeslaenderAusgeben("Bayern");
 //		System.out.println();
-		System.out.println(b.getHoehe());
+//		System.out.println(b.getHoehe());
 		System.out.println(b.getAnzahl());
-//		Binaerbaum<PlzZuID,Integer> b=new Binaerbaum<PlzZuID,Integer>();
-//		for(int i=0;i<5000;++i) {
-//			if(i%500==0) {
-//				System.out.print("");
-//			}
-//			b.einfuegen(new PlzZuID(new Postleitzahl(i%500, null, null, i, null)));
-//			System.out.println("Eingefügt: "+i+" ("+i%500+")");
+		b.printHoehen();
+//		Binaerbaum<Testeintrag,Integer> b=new Binaerbaum<Testeintrag,Integer>();
+//		for(int i=0;i<10000000;++i) {
+//			b.einfuegen(new Testeintrag(i));
+//			System.out.println("Eingefügt: "+i);
 //		}
-//		b.handlePreorder((d)->{
-//			System.out.println(d.getID()+" ("+d.getDaten()+")");
-//		});
+////		b.handle((d)->{
+////			System.out.println(d);
+////		});
 //		System.out.println(b.getHoehe());
 	}
 }

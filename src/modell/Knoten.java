@@ -2,33 +2,32 @@ package modell;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 //I ist der Integrierte Vergleichsdatentyp, S der Container für alle Daten
 public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
 
 	private Baumelement<S,I> linkerNachfolger, rechterNachfolger, zentralerNachfolger;
 	private S daten;
-    private int hoehe;
-    private boolean hoeheValid;
+    int hoeheRechts=0, hoeheLinks=0;
+    boolean validRechts=false, validLinks=false;
     
     public Knoten(S s,Baumelement<S,I> links, Baumelement<S,I> rechts){
         daten=s;
         linkerNachfolger=links;
         rechterNachfolger=rechts;
         zentralerNachfolger=new Abschluss<S,I>();
-        hoehe=0;
-        hoeheValid=false;
     }
     
     @Override
     public Knoten<S,I> einfuegen(S s){
     	VergleichRueckgabe vergleich=s.vergleiche(daten);
         if(vergleich==VergleichRueckgabe.KLEINER){
-            linkerNachfolger=linkerNachfolger.einfuegen(s);
-            hoeheValid=false;
+            linkerNachfolger=linkerNachfolger.einfuegen(s).optimiere();
+            hoeheLinks=linkerNachfolger.getHoehe();
         }else if(vergleich==VergleichRueckgabe.GROESSER){
-            rechterNachfolger=rechterNachfolger.einfuegen(s);
-            hoeheValid=false;
+            rechterNachfolger=rechterNachfolger.einfuegen(s).optimiere();
+            hoeheRechts=rechterNachfolger.getHoehe();
         }else {
         	zentralerNachfolger=zentralerNachfolger.einfuegen(s);
         }
@@ -36,12 +35,12 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
     }
     
     @Override
-    public ArrayList<S> suche(I suchbegriff, boolean genau){
+    public List<S> suche(I suchbegriff, boolean genau){
         switch (daten.suche(suchbegriff,genau)) {
             case GROESSER:
                 return linkerNachfolger.suche(suchbegriff,genau);
             case GLEICH:
-            	ArrayList<S> returner = new ArrayList<S>(Arrays.asList(daten));
+            	List<S> returner = new ArrayList<S>(Arrays.asList(daten));
             	Baumelement<S,I> nachfolger=zentralerNachfolger;
             	while(!nachfolger.isAbschluss()) {
             		returner.add(((Knoten<S,I>)nachfolger).getDaten());
@@ -55,17 +54,11 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
 
     @Override
     public int getHoehe(){
-    	if(!hoeheValid) {
-	        int rechts=rechterNachfolger.getHoehe();
-	        int links=linkerNachfolger.getHoehe();
-	        if(links>rechts){
-	        	hoehe=links+1;   
-	        }else{
-	            hoehe=rechts+1;
-	        }
-	        hoeheValid=true;
-    	}
-    	return hoehe;
+        if(hoeheLinks>hoeheRechts){
+        	return hoeheLinks+1;   
+        }else{
+            return hoeheRechts+1;
+        }
     }
 
     @Override
@@ -112,4 +105,79 @@ public class Knoten<S extends Sortierelement<I>,I> extends Baumelement<S,I> {
 		return zentralerNachfolger;
 	}
 	
+	public boolean isAVL() {
+		int diff=hoeheRechts-hoeheLinks;
+		return diff>=-1&&diff<=1;
+	}
+	
+	@Override
+	public Baumelement<S,I> rotiereRechts() {
+		if(!linkerNachfolger.isAbschluss()) {
+			Knoten<S,I> neuerOberknoten=(Knoten<S,I>)linkerNachfolger;
+			linkerNachfolger=neuerOberknoten.getRechterNachfolger();
+			hoeheLinks=linkerNachfolger.getHoehe();
+			neuerOberknoten.setRechterNachfolger(this);
+			return neuerOberknoten;
+		}else {
+			return this;
+		}
+	}
+	
+	@Override
+	public Baumelement<S,I> rotiereLinks() {
+		if(!rechterNachfolger.isAbschluss()) {
+			Knoten<S,I> neuerOberknoten=(Knoten<S,I>)rechterNachfolger;
+			rechterNachfolger=neuerOberknoten.getLinkerNachfolger();
+			hoeheRechts=rechterNachfolger.getHoehe();
+			neuerOberknoten.setLinkerNachfolger(this);
+			return neuerOberknoten;
+		}else {
+			return this;
+		}
+	}
+	
+	private Baumelement<S, I> getLinkerNachfolger() {
+		return linkerNachfolger;
+	}
+
+	private void setLinkerNachfolger(Baumelement<S, I> linkerNachfolger) {
+		this.linkerNachfolger = linkerNachfolger;
+		hoeheLinks=linkerNachfolger.getHoehe();
+	}
+
+	private Baumelement<S, I> getRechterNachfolger() {
+		return rechterNachfolger;
+	}
+
+	private void setRechterNachfolger(Baumelement<S, I> rechterNachfolger) {
+		this.rechterNachfolger = rechterNachfolger;
+		hoeheRechts=rechterNachfolger.getHoehe();
+	}
+
+	@Override
+	public Baumelement<S,I> optimiere(){
+		int diff=hoeheRechts-hoeheLinks;
+		if(diff>1) {
+			if(!rechterNachfolger.ueberpruefe(false)) {
+				rechterNachfolger=rechterNachfolger.rotiereRechts();
+			}
+			return rotiereLinks();
+		}else if(diff<-1) {
+			if(!linkerNachfolger.ueberpruefe(true)) {
+				linkerNachfolger=linkerNachfolger.rotiereLinks();
+			}
+			return rotiereRechts();
+		}
+		return this;
+	}
+
+	@Override
+	boolean ueberpruefe(boolean aussenseiteLinks) {
+		if(aussenseiteLinks) {
+			return hoeheLinks>=hoeheRechts;
+		}else {
+			return hoeheRechts>=hoeheLinks;
+		}
+	}
+		
 }

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import modell.Binaerbaum;
@@ -62,7 +63,7 @@ public class PLZ_Verzeichnis {
 								ortsnamen.einfuegen(new OrtsnameZuID(newPLZ));
 								bundeslaender.einfuegen(new BundeslandZuID(newPLZ));
 								letztePLZ=newPLZ;
-							}
+								}
 						}
 					}
 					System.out.println("Die CSV-Datei "+pfad+" wurde erfolgreich eingelesen.");
@@ -71,35 +72,66 @@ public class PLZ_Verzeichnis {
 		}
 	}
 	
-	public void plzAusgeben(int suche) {
+	public void plzSucheAusgeben(int suche) {
 		for(PlzZuID ergebnis: plzs.suchen(suche)) {
 			System.out.println(ids.suchen(ergebnis.getID()).get(0));
 		}
 	}
 	
-	public Postleitzahl suchePLZ(int suche) {
+	public ArrayList<Postleitzahl> suchePLZ(int suche) {
+		ArrayList<Postleitzahl> returner=new ArrayList<Postleitzahl>();
 		for(PlzZuID ergebnis: plzs.suchen(suche)) {
-			return ids.suchen(ergebnis.getID()).get(0);
+			returner.addAll(ids.suchen(ergebnis.getID()));
 		}
-		return null;
+		return returner;
 	}
 	
-	public void vorwahlAusgeben(int suche) {
+	public void vorwahlSucheAusgeben(int suche) {
 		for(VorwahlZuID ergebnis: vorwahlen.suchen(suche)) {
-			System.out.println(ids.suchen(ergebnis.getID()).get(0));
+			for(Postleitzahl plz: ids.suchen(ergebnis.getID())) {
+				System.out.println(plz);
+			}
 		}
+	}
+	
+	public ArrayList<Postleitzahl> sucheVorwahl(int suche) {
+		ArrayList<Postleitzahl> returner=new ArrayList<Postleitzahl>();
+		for(VorwahlZuID ergebnis: vorwahlen.suchen(suche)) {
+			returner.addAll(ids.suchen(ergebnis.getID()));
+		}
+		return returner;
 	}
 	
 	public void ortsnameAusgeben(String suche) {
 		for(OrtsnameZuID ergebnis: ortsnamen.suchen(suche)) {
-			System.out.println(ids.suchen(ergebnis.getID()).get(0));
+			for(Postleitzahl plz: ids.suchen(ergebnis.getID())) {
+				System.out.println(plz);
+			}
 		}
+	}
+	
+	public ArrayList<Postleitzahl> sucheOrtsname(String suche) {
+		ArrayList<Postleitzahl> returner=new ArrayList<Postleitzahl>();
+		for(OrtsnameZuID ergebnis: ortsnamen.suchen(suche)) {
+			returner.addAll(ids.suchen(ergebnis.getID()));
+		}
+		return returner;
 	}
 	
 	public void bundeslaenderAusgeben(String suche) {
 		for(BundeslandZuID ergebnis: bundeslaender.suchen(suche)) {
-			System.out.println(ids.suchen(ergebnis.getID()).get(0));
+			for(Postleitzahl plz: ids.suchen(ergebnis.getID())) {
+				System.out.println(plz);
+			}
 		}
+	}
+	
+	public ArrayList<Postleitzahl> sucheBundeslaender(String suche) {
+		ArrayList<Postleitzahl> returner=new ArrayList<Postleitzahl>();
+		for(BundeslandZuID ergebnis: bundeslaender.suchen(suche)) {
+			returner.addAll(ids.suchen(ergebnis.getID()));
+		}
+		return returner;
 	}
 	
 	public void ausgeben() {
@@ -128,5 +160,10 @@ public class PLZ_Verzeichnis {
 		vorwahlen.einfuegen(new VorwahlZuID(plz));
 		ortsnamen.einfuegen(new OrtsnameZuID(plz));
 		bundeslaender.einfuegen(new BundeslandZuID(plz));
+	}
+	
+	public void printHoehen() {
+		System.out.println("Postleitzahlen: "+ids.getHoehe());
+		System.out.println("PLZ zu ID: "+plzs.getHoehe());
 	}
 }
