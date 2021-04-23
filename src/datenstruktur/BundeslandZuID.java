@@ -13,8 +13,15 @@ public class BundeslandZuID implements Sortierelement<String> {
 	}
 	
 	@Override
-	public boolean istKleinerAls(Sortierelement<String> s) {
-		return name.compareTo(s.getDaten())<0;
+	public VergleichRueckgabe vergleiche(Sortierelement<String> s) {
+		int vergleich=name.compareTo(s.getDaten());
+		if(vergleich<0) {
+			return VergleichRueckgabe.KLEINER;
+		}else if(vergleich>0) {
+			return VergleichRueckgabe.GROESSER;
+		}else {
+			return VergleichRueckgabe.GLEICH;
+		}
 	}
 
 	@Override

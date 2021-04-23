@@ -13,8 +13,14 @@ public class VorwahlZuID implements Sortierelement<Integer> {
 	}
 
 	@Override
-	public boolean istKleinerAls(Sortierelement<Integer> s) {
-		return vorwahl<s.getDaten();
+	public VergleichRueckgabe vergleiche(Sortierelement<Integer> s) {
+		if(vorwahl<s.getDaten()) {
+			return VergleichRueckgabe.KLEINER;
+		}else if(vorwahl>s.getDaten()) {
+			return VergleichRueckgabe.GROESSER;
+		}else {
+			return VergleichRueckgabe.GLEICH;
+		}
 	}
 
 	@Override

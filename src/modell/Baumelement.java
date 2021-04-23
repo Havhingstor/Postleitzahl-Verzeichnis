@@ -12,5 +12,7 @@ public abstract class Baumelement<S extends Sortierelement<I>, I> {
     abstract void handleInorder(SortierelementHandler<S,I> handler);
     abstract void handlePreorder(SortierelementHandler<S,I> handler);
     abstract void handlePostorder(SortierelementHandler<S,I> handler);
+    abstract boolean isAbschluss();
+    abstract Baumelement<S,I> getNext();
 }
     

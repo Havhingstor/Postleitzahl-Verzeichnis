@@ -13,8 +13,14 @@ public class PlzZuID implements Sortierelement<Integer> {
 	}
 	
 	@Override
-	public boolean istKleinerAls(Sortierelement<Integer> s) {
-		return plz<s.getDaten();
+	public VergleichRueckgabe vergleiche(Sortierelement<Integer> s) {
+		if(plz<s.getDaten()) {
+			return VergleichRueckgabe.KLEINER;
+		}else if(plz>s.getDaten()) {
+			return VergleichRueckgabe.GROESSER;
+		}else {
+			return VergleichRueckgabe.GLEICH;
+		}
 	}
 	
 	@Override

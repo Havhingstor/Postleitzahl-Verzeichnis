@@ -30,8 +30,14 @@ public class Postleitzahl implements Sortierelement<Integer> {
 	}
 	
 	@Override
-	public boolean istKleinerAls(Sortierelement<Integer> s) {
-		return id<s.getDaten();
+	public VergleichRueckgabe vergleiche(Sortierelement<Integer> s) {
+		if(id<s.getDaten()) {
+			return VergleichRueckgabe.KLEINER;
+		}else if(id>s.getDaten()) {
+			return VergleichRueckgabe.GROESSER;
+		}else {
+			return VergleichRueckgabe.GLEICH;
+		}
 	}
 
 	@Override

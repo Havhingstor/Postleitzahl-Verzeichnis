@@ -44,4 +44,14 @@ public class Abschluss<S extends Sortierelement<I>, I> extends Baumelement<S,I> 
 
 	@Override
 	void handlePostorder(SortierelementHandler<S, I> handler) {}
+
+	@Override
+	boolean isAbschluss() {
+		return true;
+	}
+
+	@Override
+	Baumelement<S, I> getNext() {
+		return null;
+	}
 }
